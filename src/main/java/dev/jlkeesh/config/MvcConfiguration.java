@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
@@ -55,7 +56,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public DataSource dataSource(){
+    public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setUrl("jdbc:postgresql://localhost:5432/b22spring");
         dataSource.setSchema("springdatajdbc");
@@ -65,4 +66,13 @@ public class MvcConfiguration implements WebMvcConfigurer {
         return dataSource;
     }
 
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/css/*")
+                .addResourceLocations("classpath:static/css/");
+        registry.addResourceHandler("/js/*")
+                .addResourceLocations("classpath:static/js/");
+        /*registry.addResourceHandler("/static/*")
+                .addResourceLocations("classpath:static/");*/
+    }
 }
