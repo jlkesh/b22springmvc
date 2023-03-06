@@ -1,5 +1,7 @@
 package dev.jlkeesh;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +18,8 @@ public class HomeController {
     }
 
     @GetMapping(value = "/main")
-    public String main() {
+    public String main(@AuthenticationPrincipal User user) {
+        System.out.println(user);
         return "main";
     }
 
