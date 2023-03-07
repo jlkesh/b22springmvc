@@ -41,7 +41,6 @@ public class MvcConfiguration implements WebMvcConfigurer {
     public SpringTemplateEngine templateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
-        templateEngine.setEnableSpringELCompiler(true);
         return templateEngine;
     }
 
@@ -51,7 +50,6 @@ public class MvcConfiguration implements WebMvcConfigurer {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine());
         viewResolver.setOrder(1);
-        /*viewResolver.setViewNames(new String[]{".html"});*/
         return viewResolver;
     }
 
