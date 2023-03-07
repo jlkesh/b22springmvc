@@ -32,7 +32,7 @@
 <p>Blog NAME : <span th:text="${blog.title}"></span></p>
 <p>Blog NAME : [[${blog.title}]] </p>
 <button type="button" th:onclick="getBlogById([[${blog.id}]])">Click</button>
-<li th:each="s : ${#numbers.sequence(1,10)}" th:text="${s}"></li>
+<li th:each="s : ${#numbers.sequence(1,10)}" th:text="${s}" />
 <h1 th:utext="${#messages.msg('welcome.message2', 'FANTAZYOR')}"></h1>
 <div>
     <input type="checkbox" name="active" th:checked="${blog.id eq '11'}"/>
