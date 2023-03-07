@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Use Text</title>
+</head>
+<body>
+<p th:text="${message}"></p>
+<p th:utext="${message2}"></p>
+<p data-th-text="${message}"></p>
+<p data-th-text="#{welcome.message}"></p>
+<p data-th-utext="#{welcome.message2}"></p>
+</body>
+</html>

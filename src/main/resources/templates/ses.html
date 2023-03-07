@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common :: header(~{::title},~{::link})}">
+    <title>Ses Page</title>
+    <link rel="stylesheet" href="/css/ses.css">
+</head>
+<body
+        th:with="userID=12 * 12"
+>
+<!--p th:text="${blog}"></p>
+<p th:text="${blog.title}"></p>
+<p th:text="${blog.overview}"></p>
+<p th:text="${blog.content}"></p>
+<th:block th:object="${blog}">
+    <p th:text="*{id}"></p>
+    <p th:text="*{title}"></p>
+    <p th:text="*{overview}"></p>
+    <p th:text="*{content}"></p>
+</th:block>-->
+<ul th:if="${not #lists.isEmpty(students)}">
+    <li>Student List Here</li>
+</ul>
+<ul th:unless="${not #lists.isEmpty(students)}">
+    <li>Unless Student List Here</li>
+</ul>
+<ul>
+    <!--    <th:block th:each="bl : ${blogs}">
+            <li th:text="${bl}"  th:classappend="'bg-'+${blStat.odd ? 'danger' : 'success'}"></li>
+        </th:block>-->
+    <li th:each="bl : ${blogs}" th:text="${bl}" th:classappend="'bg-'+${blStat.odd ? 'danger' : 'success'}"></li>
+</ul>
+<p>Blog NAME : <span th:text="${blog.title}"></span></p>
+<p>Blog NAME : [[${blog.title}]] </p>
+<button type="button" th:onclick="getBlogById([[${blog.id}]])">Click</button>
+<li th:each="s : ${#numbers.sequence(1,10)}" th:text="${s}"></li>
+<h1 th:utext="${#messages.msg('welcome.message2', 'FANTAZYOR')}"></h1>
+<div>
+    <input type="checkbox" name="active" th:checked="${blog.id eq '11'}"/>
+</div>
+<p th:text="${'Hello '+ 'PDP !'}"></p>
+<p th:text="${123 * 12}"></p>
+
+<h1 th:text="${userID}"></h1>
+<div class="alert" th:classappend="${blog.id eq '1' ? 'alert-danger':''}">
+    <a href="/admin">Admin</a>
+</div>
+<form action="">
+    <!--<input type="text" name="title" th:attr="value=${blog.title}">
+    <input type="text" name="overview" th:attr="value=${blog.overview}">
+    <input type="text" name="content" th:attr="value=${blog.content}">
+    -->
+    <input type="text" name="title" th:field="${blog.title}">
+    <input type="text" name="overview" th:field="${blog.overview}">
+    <input type="text" name="content" th:field="${blog.content}">
+
+</form>
+
+
+<script src="/js/ses.js"></script>
+</body>
+</html>

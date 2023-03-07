@@ -1,10 +1,12 @@
 package dev.jlkeesh.config;
 
+import org.mapstruct.ap.internal.util.Message;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -13,7 +15,7 @@ import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
-import javax.sql.DataSource;
+import java.util.Locale;
 
 @Configuration
 @EnableWebMvc
@@ -53,15 +55,14 @@ public class MvcConfiguration implements WebMvcConfigurer {
         return viewResolver;
     }
 
+
     @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/b22spring");
-        dataSource.setSchema("springdatajdbc");
-        dataSource.setUsername("javohir");
-        dataSource.setPassword("123");
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        return dataSource;
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:/i18n/messages");
+        messageSource.setDefaultLocale(new Locale("uz"));
+        messageSource.setUseCodeAsDefaultMessage(true);
+        return messageSource;
     }
 
     @Override
