@@ -32,8 +32,19 @@
 <p>Blog NAME : <span th:text="${blog.title}"></span></p>
 <p>Blog NAME : [[${blog.title}]] </p>
 <button type="button" th:onclick="getBlogById([[${blog.id}]])">Click</button>
-<li th:each="s : ${#numbers.sequence(1,10)}" th:text="${s}" />
+<li th:each="s : ${#numbers.sequence(1,10)}" th:text="${s}"/>
 <h1 th:utext="${#messages.msg('welcome.message2', 'FANTAZYOR')}"></h1>
+<h1>Literals</h1>
+<p th:text="'Hello' + ' PDP ||| !'"></p>
+<p th:text="null"></p>
+<p th:text="true"></p>
+<p th:text="not false"></p>
+<span th:with="username='John'"></span>
+<span th:text="|Welcome to our application, ${'Javohir'}!|"/>
+<br />
+<span th:text="1 ?: _">no user authenticated</span>
+<br />
+<span th:text="'Javohir' ?: _">no user authenticated</span>
 <div>
     <input type="checkbox" name="active" th:checked="${blog.id eq '11'}"/>
 </div>
