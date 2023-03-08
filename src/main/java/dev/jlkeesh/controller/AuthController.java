@@ -36,6 +36,13 @@ public class AuthController {
         return mav;
     }
 
+    @GetMapping("/logout")
+    public ModelAndView logoutPage() {
+        var mav = new ModelAndView();
+        mav.setViewName("auth/logout");
+        return mav;
+    }
+
     @PostMapping("/register")
     public String register(@ModelAttribute UserRegisterDTO dto) {
         AuthUser authUser = AuthUser.builder()

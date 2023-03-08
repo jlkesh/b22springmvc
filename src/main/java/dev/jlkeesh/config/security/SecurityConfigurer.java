@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AndRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -23,12 +25,12 @@ public class SecurityConfigurer {
             "/auth/login",
             "/auth/register"
     };
-    private final CustomAuthenticationProvider authenticationProvider;
+    private final AuthUserUserDetailsService authUserUserDetailsService;
 
-
-    public SecurityConfigurer(CustomAuthenticationProvider authenticationProvider) {
-        this.authenticationProvider = authenticationProvider;
+    public SecurityConfigurer(AuthUserUserDetailsService authUserUserDetailsService) {
+        this.authUserUserDetailsService = authUserUserDetailsService;
     }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -39,33 +41,33 @@ public class SecurityConfigurer {
                                 .requestMatchers(WHITE_LIST)
                                 .permitAll()
                                 .anyRequest()
-                                .fullyAuthenticated()
+                                .authenticated()
                 )
                 .formLogin(httpSecurityFormLoginConfigurer ->
                         httpSecurityFormLoginConfigurer
                                 .loginPage("/auth/login")
+                                .loginProcessingUrl("/auth/login")
                                 .usernameParameter("uname")
                                 .passwordParameter("pswd")
-                /*)
+                                .defaultSuccessUrl("/home2", false)
+                )
+                .logout(httpSecurityLogoutConfigurer ->
+                        httpSecurityLogoutConfigurer
+                                .logoutUrl("/auth/logout")
+                                .clearAuthentication(true)
+                                .deleteCookies("JSESSIONID", "rememberME")
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout", "POST"))
+                )
                 .rememberMe(httpSecurityRememberMeConfigurer ->
                         httpSecurityRememberMeConfigurer
                                 .rememberMeParameter("rememberMe")
-                                .key("remem")
+                                .key("EWT$@WEFYG%H$ETGE@R!T#$HJYYT$QGRWHNJU%$TJRUYRHFRYFJRYUYRHD")
                                 .tokenValiditySeconds(10 * 24 * 60 * 60)// default is 30 minutes
-                                .alwaysRemember(false)
-                                .rememberMeCookieName("rememberME")*/
+                                .rememberMeCookieName("rememberME")
+                                .userDetailsService(authUserUserDetailsService)
                 );
 
         return http.build();
-    }
-
-
-    @Bean
-    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder =
-                http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.authenticationProvider(authenticationProvider);
-        return authenticationManagerBuilder.build();
     }
 
 
