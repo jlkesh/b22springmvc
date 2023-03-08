@@ -6,19 +6,20 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@ComponentScan("dev.jlkeesh")
+@EnableMethodSecurity
 public class SecurityConfigurer {
 
     public static final String[] WHITE_LIST = {
             "/css/**",
             "/js/**",
-            "/home",
             "/auth/login",
             "/auth/register"
     };
@@ -31,16 +32,32 @@ public class SecurityConfigurer {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> auth
-                .requestMatchers(WHITE_LIST)
-                .permitAll()
-                .anyRequest()
-                .fullyAuthenticated());
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
+                        authorizationManagerRequestMatcherRegistry
+                                .requestMatchers(WHITE_LIST)
+                                .permitAll()
+                                .anyRequest()
+                                .fullyAuthenticated()
+                )
+                .formLogin(httpSecurityFormLoginConfigurer ->
+                        httpSecurityFormLoginConfigurer
+                                .loginPage("/auth/login")
+                                .usernameParameter("uname")
+                                .passwordParameter("pswd")
+                /*)
+                .rememberMe(httpSecurityRememberMeConfigurer ->
+                        httpSecurityRememberMeConfigurer
+                                .rememberMeParameter("rememberMe")
+                                .key("remem")
+                                .tokenValiditySeconds(10 * 24 * 60 * 60)// default is 30 minutes
+                                .alwaysRemember(false)
+                                .rememberMeCookieName("rememberME")*/
+                );
 
-        http.formLogin();
         return http.build();
     }
-
 
 
     @Bean

@@ -8,6 +8,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,9 +19,11 @@ import java.util.Objects;
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
     private final AuthUserRepository authUserRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public CustomAuthenticationProvider(@Lazy AuthUserRepository authUserRepository) {
+    public CustomAuthenticationProvider(@Lazy AuthUserRepository authUserRepository, PasswordEncoder passwordEncoder) {
         this.authUserRepository = authUserRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -35,10 +40,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         if (Objects.isNull(authUser))
             throw new BadCredentialsException("Bad Credentials");
 
-        if (!authUser.getPassword().equals(password))
+        if (!passwordEncoder.matches(password, authUser.getPassword()))
             throw new BadCredentialsException("Bad Credentials");
 
-        return new UsernamePasswordAuthenticationToken(username, null, List.of());
+        String role = authUser.getRole();
+
+        List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
+        return new UsernamePasswordAuthenticationToken(username, null, authorities);
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -18,8 +19,8 @@ import java.util.Properties;
 
 @Configuration
 @RequiredArgsConstructor
-@ComponentScan("dev.jlkeesh")
 @PropertySource("classpath:application.properties")
+@EnableJpaRepositories("dev.jlkeesh")
 public class SpringDataConfigurer {
 
     private final Environment env;
@@ -37,9 +38,9 @@ public class SpringDataConfigurer {
 
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactoryBean.setDataSource(dataSource);
+        entityManagerFactoryBean.setDataSource(dataSource());
         entityManagerFactoryBean.setPackagesToScan("dev.jlkeesh");
 //        entityManagerFactoryBean.setPersistenceUnitName("PersistenceUnit");
 
