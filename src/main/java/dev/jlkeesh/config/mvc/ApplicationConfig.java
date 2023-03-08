@@ -1,11 +1,14 @@
-package dev.jlkeesh.config;
+package dev.jlkeesh.config.mvc;
 
+import dev.jlkeesh.config.security.SecurityConfigurer;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class ApplicationConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return null;
+        return new Class[]{
+                SecurityConfigurer.class
+        };
     }
 
     @Override

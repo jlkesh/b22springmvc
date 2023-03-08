@@ -1,4 +1,4 @@
-package dev.jlkeesh.config;
+package dev.jlkeesh.config.mvc;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -53,24 +53,11 @@ public class MvcConfiguration implements WebMvcConfigurer {
         return viewResolver;
     }
 
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/b22spring");
-        dataSource.setSchema("springdatajdbc");
-        dataSource.setUsername("javohir");
-        dataSource.setPassword("123");
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        return dataSource;
-    }
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/css/*")
                 .addResourceLocations("classpath:static/css/");
         registry.addResourceHandler("/js/*")
                 .addResourceLocations("classpath:static/js/");
-        /*registry.addResourceHandler("/static/*")
-                .addResourceLocations("classpath:static/");*/
     }
 }
