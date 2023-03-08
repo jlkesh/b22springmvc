@@ -2,6 +2,7 @@ package dev.jlkeesh.config.datasource;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -17,6 +18,7 @@ import java.util.Properties;
 
 @Configuration
 @RequiredArgsConstructor
+@ComponentScan("dev.jlkeesh")
 @PropertySource("classpath:application.properties")
 public class SpringDataConfigurer {
 
@@ -39,10 +41,12 @@ public class SpringDataConfigurer {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource);
         entityManagerFactoryBean.setPackagesToScan("dev.jlkeesh");
-        entityManagerFactoryBean.setPersistenceUnitName("PersistenceUnit");
+//        entityManagerFactoryBean.setPersistenceUnitName("PersistenceUnit");
+
         JpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
         entityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter);
         entityManagerFactoryBean.setJpaProperties(properties());
+
         return entityManagerFactoryBean;
     }
 
@@ -59,6 +63,5 @@ public class SpringDataConfigurer {
         properties.put("hibernate.hbm2ddl.auto", env.getRequiredProperty("spring.datasource.hibernate.hbm2ddl.auto"));
         return properties;
     }
-
 
 }

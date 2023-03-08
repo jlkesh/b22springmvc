@@ -1,6 +1,6 @@
 package dev.jlkeesh.config.security;
 
-import dev.jlkeesh.config.AuthUser;
+import dev.jlkeesh.domain.AuthUser;
 import dev.jlkeesh.repository.AuthUserRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -8,13 +8,12 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
 
-@Service
-@Lazy
+@Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
     private final AuthUserRepository authUserRepository;
 

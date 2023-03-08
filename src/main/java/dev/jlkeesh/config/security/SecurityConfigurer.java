@@ -1,6 +1,7 @@
 package dev.jlkeesh.config.security;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,9 +12,16 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@ComponentScan("dev.jlkeesh")
 public class SecurityConfigurer {
 
-    public static final String[] WHITE_LIST = {"/home", "/auth/login", "/auth/register"};
+    public static final String[] WHITE_LIST = {
+            "/css/**",
+            "/js/**",
+            "/home",
+            "/auth/login",
+            "/auth/register"
+    };
     private final CustomAuthenticationProvider authenticationProvider;
 
 

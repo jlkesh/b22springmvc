@@ -1,4 +1,4 @@
-package dev.jlkeesh.config;
+package dev.jlkeesh.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
