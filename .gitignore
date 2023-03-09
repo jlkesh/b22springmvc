@@ -132,3 +132,5 @@ fabric.properties
 /.idea/artifacts/springmvc_1_war_exploded.xml
 /.idea/vcs.xml
 /.idea/git_toolbox_prj.xml
+/.idea/jpa-buddy-datasource.xml
+/.jpb/persistence-units.xml
