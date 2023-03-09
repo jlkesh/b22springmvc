@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+          p:url="jdbc:postgresql://localhost:5432/b22spring"
+          p:username="javohir"
+          p:password="123"
+          p:schema="springdatajdbc"
+          p:driverClassName="org.postgresql.Driver"
+    />
+
+    <bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate"
+          c:dataSource-ref="dataSource"
+    />
+    <bean id="employeeDAO" class="dev.jlkeesh.EmployeeDAO" c:template-ref="namedParameterJdbcTemplate"/>
+</beans>
