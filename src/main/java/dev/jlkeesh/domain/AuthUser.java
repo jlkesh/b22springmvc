@@ -1,14 +1,13 @@
 package dev.jlkeesh.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.ManyToAny;
 import org.springframework.data.domain.Auditable;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 
 @Getter
@@ -32,7 +31,14 @@ public class AuthUser {
     private String email;
 
     @Column(nullable = false)
-    private String role;
+    @ManyToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "auth_user_roles",
+            joinColumns = @JoinColumn(name = "auth_user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "auth_role_id", referencedColumnName = "id")
+    )
+    private Collection<AuthRole> authRoles;
     @Builder.Default
     private Status status = Status.INACTIVE;
 

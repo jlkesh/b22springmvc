@@ -1,12 +1,18 @@
 package dev.jlkeesh.config.security;
 
+import dev.jlkeesh.domain.AuthPermission;
+import dev.jlkeesh.domain.AuthRole;
 import dev.jlkeesh.domain.AuthUser;
+import javassist.Loader;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class AuthUserUserDetails implements UserDetails {
 
@@ -18,7 +24,16 @@ public class AuthUserUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + authUser.getRole()));
+        var authRoles = Objects.requireNonNullElse(authUser.getAuthRoles(), Collections.<AuthRole>emptySet());
+        var authorities = new ArrayList<SimpleGrantedAuthority>();
+        authRoles.forEach(authRole -> {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + authRole.getCode()));
+            Collection<AuthPermission> authPermissions = Objects.requireNonNullElse(authRole.getAuthPermissions(), Collections.<AuthPermission>emptySet());
+            authPermissions.forEach(authPermission -> {
+                authorities.add(new SimpleGrantedAuthority(authPermission.getCode()));
+            });
+        });
+        return authorities;
     }
 
     @Override

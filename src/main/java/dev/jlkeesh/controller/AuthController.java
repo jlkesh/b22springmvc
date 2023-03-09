@@ -1,6 +1,7 @@
 package dev.jlkeesh.controller;
 
 import dev.jlkeesh.UserRegisterDTO;
+import dev.jlkeesh.domain.AuthRole;
 import dev.jlkeesh.domain.AuthUser;
 import dev.jlkeesh.repository.AuthUserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,7 +50,6 @@ public class AuthController {
                 .username(dto.username())
                 .password(passwordEncoder.encode(dto.password()))
                 .email(dto.email())
-                .role("USER")
                 .build();
         authUserRepository.save(authUser);
         return "redirect:/login";

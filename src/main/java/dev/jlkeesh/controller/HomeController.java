@@ -1,18 +1,23 @@
 package dev.jlkeesh.controller;
 
 import dev.jlkeesh.config.security.AuthUserUserDetails;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class HomeController {
 
     @GetMapping("/home")
-    public String homePage(Model model, @AuthenticationPrincipal AuthUserUserDetails user) {
+    @PreAuthorize("hasRole('T()')")
+    /*@Secured("ADMIN")*/
+    public String hasAdminRole(Model model) {
         model.addAttribute("username", user.getUsername());
         model.addAttribute("userid", user.getId());
         return "main";
