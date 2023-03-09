@@ -15,12 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
 
     @GetMapping("/home")
-    @PreAuthorize("hasRole('T()')")
+    @PreAuthorize("hasAnyAuthority(T(dev.jlkeesh.config.security.Permissions).HAS_CREATE_BLOG_PERMISSION)")
     /*@Secured("ADMIN")*/
     public String hasAdminRole(Model model) {
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("userid", user.getId());
-        return "main";
+        return "Has";
     }
 
     @GetMapping("/home2")
