@@ -25,6 +25,7 @@ public class SecurityConfigurer {
             "/js/**",
             "/home",
             "/auth/login",
+            "/upload",
             "/auth/register"
     };
     private final AuthUserUserDetailsService authUserUserDetailsService;
@@ -39,8 +40,7 @@ public class SecurityConfigurer {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
+        http.csrf().disable()
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                         authorizationManagerRequestMatcherRegistry
                                 .requestMatchers(WHITE_LIST)

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload File</title>
+</head>
+<body>
+<form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+    <!--<input type="hidden" name="_csrf" th:value="${_csrf.getToken()}">-->
+    <input type="text" name="fname">
+    <input type="text" name="lname">
+    <input type="file" name="file[]" multiple="multiple"/>
+    <input type="submit" value="upload">
+</form>
+</body>
+</html>
