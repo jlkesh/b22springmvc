@@ -1,29 +1,47 @@
 package dev.jlkeesh.controller;
 
+import dev.jlkeesh.CustomRuntimeException;
 import dev.jlkeesh.config.security.AuthUserUserDetails;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
+import dev.jlkeesh.config.security.UserSession;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+import java.util.Random;
+
+@Controller
 public class HomeController {
 
+    private final UserSession userSession;
+
+    public HomeController(UserSession userSession) {
+        this.userSession = userSession;
+    }
+
     @GetMapping("/home")
-    @PreAuthorize("hasAnyAuthority(T(dev.jlkeesh.config.security.Permissions).HAS_CREATE_BLOG_PERMISSION)")
-    /*@Secured("ADMIN")*/
     public String hasAdminRole(Model model) {
-        return "Has";
+        var s = "{bcrypt}$sdjvbhksnfbpgdhjnvlworhgeirnkvmd";
+        var ss = "{noop}passwor";
+        System.out.println("userSession.getUser().getId() = " + userSession.getId());
+        return "home";
     }
 
     @GetMapping("/home2")
-    @PreAuthorize("hasRole('ADMIN')")
     public String homePage2() {
+        if (new Random().nextBoolean()) {
+            throw new CustomRuntimeException("Just For Fun Exception");
+        }
         return "main2";
     }
+
+/*    @ExceptionHandler(CustomRuntimeException.class)
+    public String exception(Model model, CustomRuntimeException e) {
+        model.addAttribute("error", e.getMessage());
+        return "error";
+    }*/
 }

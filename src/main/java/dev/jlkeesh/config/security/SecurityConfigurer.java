@@ -1,38 +1,39 @@
 package dev.jlkeesh.config.security;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AndRequestMatcher;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(
         prePostEnabled = true,
-        securedEnabled = true
+        securedEnabled = true,
+        jsr250Enabled = true
+
 )
 public class SecurityConfigurer {
 
     public static final String[] WHITE_LIST = {
             "/css/**",
             "/js/**",
+            "/home",
             "/auth/login",
             "/auth/register"
     };
     private final AuthUserUserDetailsService authUserUserDetailsService;
+    private final AuthenticationFailureHandler authenticationFailureHandler;
 
-    public SecurityConfigurer(AuthUserUserDetailsService authUserUserDetailsService) {
+    public SecurityConfigurer(AuthUserUserDetailsService authUserUserDetailsService,
+                              AuthenticationFailureHandler authenticationFailureHandler) {
         this.authUserUserDetailsService = authUserUserDetailsService;
+        this.authenticationFailureHandler = authenticationFailureHandler;
     }
 
 
@@ -54,6 +55,7 @@ public class SecurityConfigurer {
                                 .usernameParameter("uname")
                                 .passwordParameter("pswd")
                                 .defaultSuccessUrl("/home2", false)
+                                .failureHandler(authenticationFailureHandler)
                 )
                 .logout(httpSecurityLogoutConfigurer ->
                         httpSecurityLogoutConfigurer
@@ -62,14 +64,15 @@ public class SecurityConfigurer {
                                 .deleteCookies("JSESSIONID", "rememberME")
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout", "POST"))
                 )
+                .userDetailsService(authUserUserDetailsService)
                 .rememberMe(httpSecurityRememberMeConfigurer ->
                         httpSecurityRememberMeConfigurer
                                 .rememberMeParameter("rememberMe")
                                 .key("EWT$@WEFYG%H$ETGE@R!T#$HJYYT$QGRWHNJU%$TJRUYRHFRYFJRYUYRHD")
                                 .tokenValiditySeconds(10 * 24 * 60 * 60)// default is 30 minutes
                                 .rememberMeCookieName("rememberME")
-                                .userDetailsService(authUserUserDetailsService)
                 );
+
 
         return http.build();
     }

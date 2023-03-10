@@ -1,16 +1,17 @@
 package dev.jlkeesh.controller;
 
 import dev.jlkeesh.UserRegisterDTO;
+import dev.jlkeesh.config.security.AuthUserUserDetails;
 import dev.jlkeesh.domain.AuthRole;
 import dev.jlkeesh.domain.AuthUser;
 import dev.jlkeesh.repository.AuthUserRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -30,9 +31,11 @@ public class AuthController {
         mav.setViewName("auth/register");
         return mav;
     }
+
     @GetMapping("/login")
-    public ModelAndView loginPage() {
+    public ModelAndView loginPage(@RequestParam(required = false) String error) {
         var mav = new ModelAndView();
+        mav.addObject("error", error);
         mav.setViewName("auth/login");
         return mav;
     }
