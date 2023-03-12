@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -50,13 +51,15 @@ public class UseTextController {
     }
 
     @PostMapping("/blog")
-    public String saveBlog(@Valid @ModelAttribute("blog") Blog blog, BindingResult errors) {
+    public String saveBlog(@Valid @ModelAttribute("blog") Blog blog, BindingResult errors, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("msg", "dfsljfs");
+        return "redirect:/template";
         if (errors.hasErrors()) {
             return "blog";
         }
-        if (!blog.getTitle().equals(blog.getTitle2())){
-            errors.rejectValue("title","Title and Title2 must match");
-            errors.rejectValue("title2","Title and Title2 must match");
+        if (!blog.getTitle().equals(blog.getTitle2())) {
+            errors.rejectValue("title", "", "fields.did.not.match.each.other");
+            errors.rejectValue("title2", "", "fields.did.not.match.each.other");
             return "blog";
         }
         System.out.println("blog = " + blog);

@@ -3,17 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .red{
+            color: red;
+            font-size: 12px;
+        }
+    </style>
 </head>
 <body>
 <form method="post" th:object="${blog}">
     <!--<ul th:if="${#fields.hasErrors()}">
         <li th:each="er : ${#fields.errors()}" th:text="${er}"></li>
     </ul>-->
-  Title : <input type="text" name="title" /> <br>
-    <span th:if="${#fields.hasErrors('title')}" th:text="${#fields.errors('title')}"></span>
-  Title2 : <input type="text" name="title2" /> <br>
-    <span th:if="${#fields.hasErrors('title2')}" th:errors="${title2}"></span>
-    Body : <input type="text" name="body" /> <br>
+  Title : <input type="text" name="title" th:field="*{title}" /> <br>
+    <span th:if="${#fields.hasErrors('title')}">
+        <li th:each="er : ${#fields.errors('title')}" th:text="${#messages.msg(er,'Title', 'Title2')}" class="red"></li>
+    </span>
+  Title2 : <input type="text" name="title2" th:field="*{title2}" /> <br>
+    <span th:if="${#fields.hasErrors('title2')}">
+        <li th:each="er : ${#fields.errors('title2')}" th:text="${#messages.msg(er,'Title', 'Title2')}" class="red"> </li>
+    </span>
+    Body : <input type="text" name="body" th:field="*{body}" /> <br>
   <input type="submit" value="save blog">
 </form>
 </body>
