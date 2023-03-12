@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1 th:text="#{welcome.message}"></h1>
+<h1 th:utext="${#messages.msg('welcome.message2','Abdullo')}"></h1>
+</body>
+</html>
