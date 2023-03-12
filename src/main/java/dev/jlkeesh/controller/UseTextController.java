@@ -51,9 +51,7 @@ public class UseTextController {
     }
 
     @PostMapping("/blog")
-    public String saveBlog(@Valid @ModelAttribute("blog") Blog blog, BindingResult errors, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("msg", "dfsljfs");
-        return "redirect:/template";
+    public String saveBlog(@Valid @ModelAttribute("blog") Blog blog, BindingResult errors) {
         if (errors.hasErrors()) {
             return "blog";
         }
