@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head(~{::title},~{::link})">
+    <title>New Vocabulary PAge</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<section th:replace="fragments :: navbar"></section>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6">
+            <h1 class="text-center">New Word</h1>
+            <form class="g-3 needs-validation" novalidate method="post" >
+                <div class="mb-3">
+                    <label for="word" class="form-label">Word</label>
+                    <input type="text" class="form-control" name="word" id="word" required >
+                    <div class="invalid-feedback">
+                        Please add word
+                    </div>
+                </div>
+                <div id="translations" class="m-1"></div>
+                <button type="button" class="btn btn-primary" onclick="addInput('translation')">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    Translation</button>
+                <div id="synonyms" class="m-1"></div>
+                <button type="button" class="btn btn-primary" onclick="addInput('synonym')">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    Synonym</button>
+                <div id="examples" class="m-1"></div>
+                <button type="button" class="btn btn-primary" onclick="addInput('example')">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    Example</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+        <div class="col-6">
+            <h1 class="text-center">Translate</h1>
+
+            <div class="cr">
+                <div class="wr">
+                    <div class="ti">
+                        <textarea spellcheck="false" class="from-text" placeholder="Enter text"></textarea>
+                        <textarea spellcheck="false" readonly disabled class="tt" placeholder="Translation"></textarea>
+                    </div>
+                    <ul class="c">
+                        <li class="r from">
+                            <div class="icons">
+                                <i id="from" class="fas fa-volume-up"></i>
+                                <i id="from" class="fas fa-copy"></i>
+                            </div>
+                            <select></select>
+                        </li>
+                        <li class="exchange"><i class="fas fa-exchange-alt"></i></li>
+                        <li class="r to">
+                            <select></select>
+                            <div class="icons">
+                                <i id="to" class="fas fa-volume-up"></i>
+                                <i id="to" class="fas fa-copy"></i>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <button id="translate">Translate Text</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<section th:replace="fragments :: js_links"></section>
+<script src="/js/script.js"></script>
+
+</body>
+</html>

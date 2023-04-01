@@ -1,10 +1,6 @@
-package dev.jlkeesh.controller;
+package dev.jlkeesh.authuser;
 
-import dev.jlkeesh.UserRegisterDTO;
-import dev.jlkeesh.domain.AuthUser;
-import dev.jlkeesh.repository.AuthUserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;

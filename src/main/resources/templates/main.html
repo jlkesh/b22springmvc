@@ -1,10 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head(~{::title},~{::link})">
+    <title>Main Page</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <body>
-<h1>Home Page</h1>
+<section th:replace="fragments :: navbar"></section>
+<div class="container">
+    <nav aria-label="...">
+        <ul class="pagination">
+            <li class="page-item">
+                <button type="button" onclick="addLimit()" class="page-link">
+                    <i class="fa fa-retweet text-success fs-1" aria-hidden="true"></i>
+                </button>
+            </li>
+
+            <li class="page-item">
+                <select class="form-select fs-3" id="limit">
+                </select>
+            </li>
+        </ul>
+    </nav>
+    <!--BODY-->
+    <div class="row">
+
+        <div class="col-3" th:each="vocabulary : ${vocabularies}" th:object="${vocabulary}">
+            <div class="card m-2">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="*{word}"></h5>
+
+                    <li class="text-primary" th:text="${#strings.listJoin(vocabulary.translations, ', ')}"></li>
+                    <li class="text-warning" th:text="${#strings.listJoin(vocabulary.synonyms, ', ')}"></li>
+                    <li class="text-success fst-italic" th:text="${#strings.listJoin(vocabulary.examples, ', ')}"></li>
+                    <a th:href="@{/vocabulary/delete/{id}(id=${vocabulary.id})}" class="card-link">delete</a>
+                    <a th:href="@{/vocabulary/update/{id}(id=${vocabulary.id})}" class="card-link">edit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END BODY-->
+</div>
+<section th:replace="fragments :: js_links"></section>
 </body>
 </html>

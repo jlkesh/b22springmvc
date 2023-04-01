@@ -1,6 +1,5 @@
-package dev.jlkeesh.repository;
+package dev.jlkeesh.authuser;
 
-import dev.jlkeesh.domain.AuthUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

@@ -1,10 +1,6 @@
 package dev.jlkeesh.config.mvc;
 
-import dev.jlkeesh.config.datasource.SpringDataConfigurer;
-import dev.jlkeesh.config.security.SecurityConfigurer;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
-import javax.swing.*;
 
 public class ApplicationConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override

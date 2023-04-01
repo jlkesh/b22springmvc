@@ -1,4 +1,4 @@
-package dev.jlkeesh.domain;
+package dev.jlkeesh.authuser;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -6,9 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.domain.Auditable;
-
-import java.time.LocalDateTime;
 
 
 @Getter
@@ -31,10 +28,10 @@ public class AuthUser {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false,columnDefinition = "varchar default 'USER'")
     private String role;
     @Builder.Default
-    private Status status = Status.INACTIVE;
+    private Status status = Status.ACTIVE;
 
 
     public enum Status {
